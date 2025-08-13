@@ -9,7 +9,9 @@ import { restartDevice, rebootDevice, shutdownDevice } from './utils'
 import { getSdk, BalenaSDK } from 'balena-sdk'
 import * as fs from 'fs'
 
-const VERSION = fs.readFileSync('VERSION', 'utf-8')
+const VERSION = fs.existsSync('VERSION') 
+  ? fs.readFileSync('VERSION', 'utf8').trim() 
+  : '3.11.0'; // last version before removal of VERSION```
 
 export default class SoundAPI {
   private api: Application
