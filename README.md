@@ -20,21 +20,12 @@ All of the above software is easily installable from downloads or via the [Raspb
 
 ## Highlights
 
-- **15-band LADSPA equalizer**: Fine-tune your sound with 5 presets or custom curves, all adjustable via Balena Cloud environment variables
+- **15-band LADSPA equalizer**: Fine-tune your sound with manual band control (see [EQUALIZER.md](EQUALIZER.md))
 - **Audio source plugins**: Stream audio from Airplay2, UPnP, and more (Bluetooth & Spotify removed)
 - **Multi-room synchronous playing**: Play perfectly synchronized audio on multiple devices all over your place
 - **Extended DAC support**: Upgrade your audio quality with one of our supported DACs
 - **Debian-based audio block**: Using Debian Bullseye for better audio plugin compatibility (SWH LADSPA plugins)
 
-### 🎛️ Equalizer Features
-
-- **5 Built-in Presets**: FLAT, BALANCED, AGGRESSIVE (default), BASS_HEAVY, VOCAL
-- **Dynamic Configuration**: Change EQ settings without rebuilding - just set environment variables
-- **Bass/Treble Boost**: Fine-tune presets with multipliers (0.0 to 2.0)
-- **Custom Curves**: Define your own 15-band EQ curve (50Hz to 20kHz)
-- **Real-time Control**: All settings adjustable via Balena Cloud dashboard
-
-📖 **Full EQ documentation**: [EQUALIZER.md](EQUALIZER.md)
 
 ## Hardware Compatibility
 
@@ -49,32 +40,21 @@ Running this app is as simple as deploying it to a balenaCloud fleet. You can do
 
 [![deploy button](https://balena.io/deploy.svg)](https://dashboard.balena-cloud.com/deploy?repoUrl=https://github.com/pavlosp/iotsound&defaultDeviceType=raspberry-pi)
 
-### Quick Start: Using the Equalizer
+### Equalizer
 
-After deployment, the equalizer is **enabled by default** with a balanced-aggressive curve optimized for small speakers like Beovox CX100.
+The equalizer is **enabled by default** with a custom 15-band curve optimized for Beovox CX100 speakers.
 
-**Current EQ Profile:**
-- **Bass**: Strong boost (+10 to +1 dB on 50-311Hz)
-- **Mids**: Scooped V-shape (-1 to -2 dB on 440Hz-1.25kHz)
-- **Highs**: Smooth presence (+1 to +6 dB on 1.75-10kHz, +4 dB at 20kHz)
+**To customize the sound:**
+1. Edit the EQ bands in `core/audio/balena-sound.pa` (line 12)
+2. Commit and push: `git push balena master`
+3. Wait ~1 minute for the device to update
 
-#### To customize the EQ:
-
-You need to **manually edit** the EQ bands in `core/audio/balena-sound.pa` and redeploy.
-
-**Example:** Change line 12 to adjust the 15-band curve:
-```
-control=10,8,6,4,1,-1,-2,-2,-1,1,3,5,6,6,4
-```
-
-Each value represents a frequency band in dB:
-- Bands 1-5: **Bass** (50Hz, 100Hz, 156Hz, 220Hz, 311Hz)
-- Bands 6-9: **Mids** (440Hz, 622Hz, 880Hz, 1.25kHz)
-- Bands 10-15: **Highs** (1.75kHz, 2.5kHz, 3.5kHz, 5kHz, 10kHz, 20kHz)
-
-After editing, commit and push to your fork, then `git push balena master` to deploy.
-
-📖 **Full guide with verification commands**: [EQUALIZER.md](EQUALIZER.md)
+📖 **Complete guide**: See [EQUALIZER.md](EQUALIZER.md) for:
+- Current frequency breakdown and settings
+- How to adjust specific bands
+- Verification commands to check EQ status
+- Tuning tips (reduce hiss, adjust bass, etc.)
+- Troubleshooting
 
 ## Technical Changes from Original
 
@@ -83,7 +63,7 @@ This fork includes several modifications to support the equalizer:
 - **Audio Block Base Image**: Changed from Alpine Linux 3.15 to Debian Bullseye for better LADSPA plugin support
 - **LADSPA Equalizer**: Uses `module-ladspa-sink` with SWH plugins (`mbeq_1197` - 15-band multiband EQ)
 - **Audio Format**: All PulseAudio sinks configured as `float32le` for LADSPA compatibility
-- **Dynamic Configuration**: EQ settings generated at runtime from environment variables via `configure-eq.sh`
+- **Static Configuration**: EQ curve defined in `balena-sound.pa` for reliability and simplicity
 - **Removed Plugins**: Bluetooth and Spotify plugins removed to reduce complexity
 - **Kept Plugins**: Airplay, UPnP, and multiroom functionality fully intact
 
