@@ -15,7 +15,7 @@ control=10,8,6,4,1,-1,-2,-2,-1,1,3,5,6,6,4
 | Band | Frequency | Current Level | Description |
 |------|-----------|---------------|-------------|
 | 1 | 50 Hz | +10 dB | Sub-bass (deep rumble) |
-| 2 | 100 Hz | +8 dB | Bass (kick drums) |
+| 2 | 100 Hz | +10 dB | Bass (kick drums) |
 | 3 | 156 Hz | +6 dB | Bass (low fundamentals) |
 | 4 | 220 Hz | +4 dB | Low-mids (warmth) |
 | 5 | 311 Hz | +1 dB | Low-mids |
@@ -25,10 +25,10 @@ control=10,8,6,4,1,-1,-2,-2,-1,1,3,5,6,6,4
 | 9 | 1.25 kHz | -1 dB | Upper-mids (reduced) |
 | 10 | 1.75 kHz | +1 dB | Presence (vocal clarity) |
 | 11 | 2.5 kHz | +3 dB | Presence (bite) |
-| 12 | 3.5 kHz | +5 dB | Brilliance (detail) |
-| 13 | 5 kHz | +6 dB | Brilliance (sparkle) |
-| 14 | 10 kHz | +6 dB | Air (shimmer) |
-| 15 | 20 kHz | +4 dB | Ultra-high air |
+| 12 | 3.5 kHz | +4 dB | Brilliance (detail) |
+| 13 | 5 kHz | +5 dB | Brilliance (sparkle) |
+| 14 | 10 kHz | +4 dB | Air (shimmer) |
+| 15 | 20 kHz | +3 dB | Ultra-high air |
 
 ## How to Change the EQ
 
