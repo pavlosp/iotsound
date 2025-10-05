@@ -5,8 +5,13 @@ load-module module-null-sink sink_name=balena-sound.input
 load-module module-null-sink sink_name=balena-sound.output
 load-module module-null-sink sink_name=snapcast
 
-# Route all plugin input to the default sink
-set-default-sink balena-sound.input
+# Load LADSPA equalizer sink (15-band multiband EQ using SWH plugins)
+# EQ curve optimized for Beovox CX100 speakers (bass boost + treble lift)
+# control parameters are band levels in dB: 50Hz, 100Hz, 156Hz, 220Hz, 311Hz, 440Hz, 622Hz, 880Hz, 1.25kHz, 1.75kHz, 2.5kHz, 3.5kHz, 5kHz, 10kHz, 20kHz
+load-module module-ladspa-sink sink_name=balena-sound.equalizer master=balena-sound.input plugin=mbeq_1197 label=mbeq control=8,6,4,2,1,0,0,-1,0,1,2,3,4,5,3
+
+# Route all plugin input to the equalizer sink
+set-default-sink balena-sound.equalizer
 
 # Route audio internally, loopback sinks depend on configuration. See start.sh for details:
 # balena-sound.input: For multiroom it's routed to snapcast sink, for standalone directly wired to balena-sound.output
