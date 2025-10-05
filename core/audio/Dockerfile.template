@@ -1,6 +1,9 @@
 # hadolint ignore=DL3006
 FROM bh.cr/balenalabs/audio-%%BALENA_ARCH%%
 
+# Install equalizer module (Alpine package name)
+RUN install_packages pulseaudio-equalizer
+
 WORKDIR /usr/src
 COPY . .
 
