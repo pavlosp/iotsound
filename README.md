@@ -1,6 +1,8 @@
-# IoTSound
+# IoTSound + Equalizer Fork
 
-**Starter project enabling you to add multi-room audio streaming via Bluetooth, Airplay2, Spotify Connect and others to any old speakers or Hi-Fi using just a Raspberry Pi.**
+**Starter project enabling you to add multi-room audio streaming via Airplay2, UPnP and others to any old speakers or Hi-Fi using just a Raspberry Pi.**
+
+> 🎚️ **This is a fork of [iotsound/iotsound](https://github.com/iotsound/iotsound)** with added **15-band LADSPA equalizer support** and a custom Debian-based audio block. Bluetooth and Spotify plugins have been removed for a streamlined setup focused on high-quality audio with EQ control.
 
 IoTSound, formerly balenaSound, was developed in 2019 to showcase the capabilities of the [balena IoT platform](https://www.balena.io/) which provides powerful edge device management at scale. Unfortunately, balenaSound has not connected with its intended audience: the commercial and industrial IoT space where the balena platform has thrived. Rather than archive and discontinue balenaSound, we are separating it from balena and gifting it to the hobbyist audio community that has been so passionate about it over the past years. 
 
@@ -18,20 +20,74 @@ All of the above software is easily installable from downloads or via the [Raspb
 
 ## Highlights
 
-- **Audio source plugins**: Stream audio from your favourite music services: Bluetooth, Airplay2, Spotify Connect, UPnP and more!
-- **Multi-room synchronous playing**: Play perfectly synchronized audio on multiple devices all over your place.
+- **15-band LADSPA equalizer**: Fine-tune your sound with 5 presets or custom curves, all adjustable via Balena Cloud environment variables
+- **Audio source plugins**: Stream audio from Airplay2, UPnP, and more (Bluetooth & Spotify removed)
+- **Multi-room synchronous playing**: Play perfectly synchronized audio on multiple devices all over your place
 - **Extended DAC support**: Upgrade your audio quality with one of our supported DACs
-- **15-band equalizer**: Fine-tune your sound with adjustable EQ presets via Balena Cloud (see [EQUALIZER.md](EQUALIZER.md))
+- **Debian-based audio block**: Using Debian Bullseye for better audio plugin compatibility (SWH LADSPA plugins)
+
+### 🎛️ Equalizer Features
+
+- **5 Built-in Presets**: FLAT, BALANCED, AGGRESSIVE (default), BASS_HEAVY, VOCAL
+- **Dynamic Configuration**: Change EQ settings without rebuilding - just set environment variables
+- **Bass/Treble Boost**: Fine-tune presets with multipliers (0.0 to 2.0)
+- **Custom Curves**: Define your own 15-band EQ curve (50Hz to 20kHz)
+- **Real-time Control**: All settings adjustable via Balena Cloud dashboard
+
+📖 **Full EQ documentation**: [EQUALIZER.md](EQUALIZER.md)
+
+## Hardware Compatibility
+
+⚠️ **This fork has been tested on:**
+- **Raspberry Pi 4** with BossDAC (Allo Boss DAC)
+
+Other Raspberry Pi models may work but have not been tested. The Debian-based audio block may have different performance characteristics compared to the original Alpine-based image.
 
 ## Setup and configuration
 
 Running this app is as simple as deploying it to a balenaCloud fleet. You can do it in just one click by using the button below:
 
-[![deploy button](https://balena.io/deploy.svg)](https://dashboard.balena-cloud.com/deploy?repoUrl=https://github.com/iotsound/iotsound&defaultDeviceType=raspberry-pi)
+[![deploy button](https://balena.io/deploy.svg)](https://dashboard.balena-cloud.com/deploy?repoUrl=https://github.com/pavlosp/iotsound&defaultDeviceType=raspberry-pi)
+
+### Quick Start: Using the Equalizer
+
+After deployment, the equalizer is **enabled by default** with the `AGGRESSIVE` preset (optimized for small speakers like Beovox CX100).
+
+#### To change EQ settings:
+
+1. **Go to your device in Balena Cloud**
+2. **Navigate to Device Variables** (or Fleet Variables for all devices)
+3. **Add environment variables**:
+
+| Variable | Example Value | Description |
+|----------|---------------|-------------|
+| `SOUND_EQ_PRESET` | `BALANCED` | Choose: FLAT, BALANCED, AGGRESSIVE, BASS_HEAVY, VOCAL |
+| `SOUND_EQ_BASS_BOOST` | `1.5` | Multiply bass by 1.5x (0.0 to 2.0) |
+| `SOUND_EQ_TREBLE_BOOST` | `0.8` | Multiply treble by 0.8x (0.0 to 2.0) |
+| `SOUND_EQ_ENABLED` | `false` | Disable equalizer completely |
+| `SOUND_EQ_CUSTOM` | `8,6,4,2,0,0,0,0,0,0,2,4,6,8,10` | Custom 15-band curve in dB |
+
+4. **Restart the audio service** (or reboot device)
+5. **Play music via Airplay** and enjoy!
+
+📖 **Detailed guide with frequency bands and examples**: [EQUALIZER.md](EQUALIZER.md)
+
+## Technical Changes from Original
+
+This fork includes several modifications to support the equalizer:
+
+- **Audio Block Base Image**: Changed from Alpine Linux 3.15 to Debian Bullseye for better LADSPA plugin support
+- **LADSPA Equalizer**: Uses `module-ladspa-sink` with SWH plugins (`mbeq_1197` - 15-band multiband EQ)
+- **Audio Format**: All PulseAudio sinks configured as `float32le` for LADSPA compatibility
+- **Dynamic Configuration**: EQ settings generated at runtime from environment variables via `configure-eq.sh`
+- **Removed Plugins**: Bluetooth and Spotify plugins removed to reduce complexity
+- **Kept Plugins**: Airplay, UPnP, and multiroom functionality fully intact
 
 ## Documentation
 
-Head over to our [docs](https://iotsound.github.io/) for detailed installation and usage instructions, customization options, and more!
+Head over to the [original docs](https://iotsound.github.io/) for detailed installation and usage instructions, customization options, and more!
+
+For equalizer-specific documentation, see [EQUALIZER.md](EQUALIZER.md).
 
 ## Motivation
 
@@ -45,4 +101,12 @@ This project is no longer in active development but if you'd like to be a mainta
 
 ## Getting Help
 
-If you're having any problem, please [raise an issue](https://github.com/iotsound/iotsound/issues/new) on GitHub so another community member may provide assistance.
+For issues related to the **equalizer or this fork**, please [raise an issue](https://github.com/pavlosp/iotsound/issues/new) on this repository.
+
+For general IoTSound issues, refer to the [original project](https://github.com/iotsound/iotsound).
+
+---
+
+### Fork Maintainer
+
+This fork is maintained by [@pavlosp](https://github.com/pavlosp). The original IoTSound project is available at [iotsound/iotsound](https://github.com/iotsound/iotsound).
