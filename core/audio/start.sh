@@ -95,15 +95,4 @@ if [[ -n "$SOUND_ENABLE_SOUNDCARD_INPUT" ]]; then
   route_input_source
 fi
 
-# Configure equalizer if enabled (default: enabled)
-if [[ "${SOUND_EQ_ENABLED:-true}" == "true" ]]; then
-  echo "Configuring equalizer..."
-  EQ_LINE=$(/bin/bash /usr/src/configure-eq.sh)
-  echo "$EQ_LINE" >> "$CONFIG_FILE"
-  # Set equalizer as default sink
-  echo "set-default-sink balena-sound.equalizer" >> "$CONFIG_FILE"
-else
-  echo "Equalizer disabled, skipping..."
-fi
-
 exec pulseaudio
