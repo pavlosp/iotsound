@@ -55,8 +55,8 @@ After deployment, the equalizer is **enabled by default** with a balanced-aggres
 
 **Current EQ Profile:**
 - **Bass**: Strong boost (+10 to +1 dB on 50-311Hz)
-- **Mids**: Slightly scooped (-1 dB)
-- **Highs**: Smooth presence (+1 to +6 dB on 1.75-10kHz)
+- **Mids**: Scooped V-shape (-1 to -2 dB on 440Hz-1.25kHz)
+- **Highs**: Smooth presence (+1 to +6 dB on 1.75-10kHz, +4 dB at 20kHz)
 
 #### To customize the EQ:
 
@@ -64,7 +64,7 @@ You need to **manually edit** the EQ bands in `core/audio/balena-sound.pa` and r
 
 **Example:** Change line 12 to adjust the 15-band curve:
 ```
-control=10,8,6,4,1,-1,-1,-1,1,2,4,5,6,4
+control=10,8,6,4,1,-1,-2,-2,-1,1,3,5,6,6,4
 ```
 
 Each value represents a frequency band in dB:

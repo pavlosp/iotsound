@@ -7,7 +7,7 @@ Your IoTSound fork includes a **15-band LADSPA equalizer** using SWH plugins, op
 The default EQ profile is **BALANCED-AGGRESSIVE** for Beovox CX100 speakers:
 
 ```
-control=10,8,6,4,1,-1,-1,-1,1,2,4,5,6,4
+control=10,8,6,4,1,-1,-2,-2,-1,1,3,5,6,6,4
 ```
 
 ### Frequency Breakdown
@@ -20,15 +20,15 @@ control=10,8,6,4,1,-1,-1,-1,1,2,4,5,6,4
 | 4 | 220 Hz | +4 dB | Low-mids (warmth) |
 | 5 | 311 Hz | +1 dB | Low-mids |
 | 6 | 440 Hz | -1 dB | Mids (slightly scooped) |
-| 7 | 622 Hz | -1 dB | Mids |
-| 8 | 880 Hz | -1 dB | Mids |
-| 9 | 1.25 kHz | +1 dB | Upper-mids (clarity) |
-| 10 | 1.75 kHz | +2 dB | Presence (vocal clarity) |
-| 11 | 2.5 kHz | +4 dB | Presence (bite) |
+| 7 | 622 Hz | -2 dB | Mids (scooped) |
+| 8 | 880 Hz | -2 dB | Mids (scooped) |
+| 9 | 1.25 kHz | -1 dB | Upper-mids (reduced) |
+| 10 | 1.75 kHz | +1 dB | Presence (vocal clarity) |
+| 11 | 2.5 kHz | +3 dB | Presence (bite) |
 | 12 | 3.5 kHz | +5 dB | Brilliance (detail) |
 | 13 | 5 kHz | +6 dB | Brilliance (sparkle) |
-| 14 | 10 kHz | +4 dB | Air (shimmer) |
-| 15 | 20 kHz | (value from config) | Ultra-high air |
+| 14 | 10 kHz | +6 dB | Air (shimmer) |
+| 15 | 20 kHz | +4 dB | Ultra-high air |
 
 ## How to Change the EQ
 
@@ -37,7 +37,7 @@ control=10,8,6,4,1,-1,-1,-1,1,2,4,5,6,4
 Open `core/audio/balena-sound.pa` and find line 12:
 
 ```bash
-load-module module-ladspa-sink sink_name=balena-sound.equalizer sink_master=balena-sound.input plugin=mbeq_1197 label=mbeq control=10,8,6,4,1,-1,-1,-1,1,2,4,5,6,4
+load-module module-ladspa-sink sink_name=balena-sound.equalizer sink_master=balena-sound.input plugin=mbeq_1197 label=mbeq control=10,8,6,4,1,-1,-2,-2,-1,1,3,5,6,6,4
 ```
 
 Change the `control=` values to your desired dB levels (range: -70 to +30 dB).
@@ -79,9 +79,9 @@ control=6,4,3,1,0,0,0,-1,0,1,2,3,4,3,2
 ```
 
 ### CURRENT (BALANCED-AGGRESSIVE)
-Strong bass, smooth highs:
+Strong bass, scooped mids, smooth highs:
 ```
-control=10,8,6,4,1,-1,-1,-1,1,2,4,5,6,4
+control=10,8,6,4,1,-1,-2,-2,-1,1,3,5,6,6,4
 ```
 
 ## Tuning Tips
@@ -151,7 +151,7 @@ pactl list modules | grep -A 20 "module-ladspa-sink"
 ```
 Module #XX
     Name: module-ladspa-sink
-    Argument: sink_name=balena-sound.equalizer sink_master=balena-sound.input plugin=mbeq_1197 label=mbeq control=10,8,6,4,1,-1,-1,-1,1,2,4,5,6,4
+    Argument: sink_name=balena-sound.equalizer sink_master=balena-sound.input plugin=mbeq_1197 label=mbeq control=10,8,6,4,1,-1,-2,-2,-1,1,3,5,6,6,4
     ...
 ```
 
