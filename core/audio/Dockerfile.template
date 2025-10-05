@@ -1,8 +1,8 @@
 # hadolint ignore=DL3006
 FROM bh.cr/balenalabs/audio-%%BALENA_ARCH%%
 
-# Install equalizer module (Alpine package name)
-RUN install_packages pulseaudio-equalizer
+# No additional packages needed
+# Note: LADSPA equalizer not functional in Alpine 3.15 PulseAudio build
 
 WORKDIR /usr/src
 COPY . .

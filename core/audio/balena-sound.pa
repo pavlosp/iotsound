@@ -5,12 +5,8 @@ load-module module-null-sink sink_name=balena-sound.input
 load-module module-null-sink sink_name=balena-sound.output
 load-module module-null-sink sink_name=snapcast
 
-# Load equalizer sink (10-band equalizer)
-load-module module-equalizer-sink sink_name=balena-sound.equalizer master=balena-sound.input
-load-module module-dbus-protocol
-
-# Route all plugin input to the equalizer sink
-set-default-sink balena-sound.equalizer
+# Route all plugin input to the default sink
+set-default-sink balena-sound.input
 
 # Route audio internally, loopback sinks depend on configuration. See start.sh for details:
 # balena-sound.input: For multiroom it's routed to snapcast sink, for standalone directly wired to balena-sound.output
