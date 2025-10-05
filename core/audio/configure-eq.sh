@@ -24,15 +24,15 @@ TREBLE_BOOST="${SOUND_EQ_TREBLE_BOOST:-1.0}"
 if [[ -n "$EQ_CUSTOM" ]]; then
   # Use custom values if provided
   EQ_VALUES="$EQ_CUSTOM"
-  echo "Using custom EQ: $EQ_VALUES"
+  echo "Using custom EQ: $EQ_VALUES" >&2
 elif [[ -n "${EQ_PRESETS[$EQ_PRESET]}" ]]; then
   # Use preset
   EQ_VALUES="${EQ_PRESETS[$EQ_PRESET]}"
-  echo "Using EQ preset: $EQ_PRESET"
+  echo "Using EQ preset: $EQ_PRESET" >&2
   
   # Apply bass/treble multipliers if not default
   if [[ "$BASS_BOOST" != "1.0" ]] || [[ "$TREBLE_BOOST" != "1.0" ]]; then
-    echo "Applying bass boost: ${BASS_BOOST}x, treble boost: ${TREBLE_BOOST}x"
+    echo "Applying bass boost: ${BASS_BOOST}x, treble boost: ${TREBLE_BOOST}x" >&2
     
     # Split into array
     IFS=',' read -ra BANDS <<< "$EQ_VALUES"
@@ -47,14 +47,14 @@ elif [[ -n "${EQ_PRESETS[$EQ_PRESET]}" ]]; then
     
     # Rejoin
     EQ_VALUES=$(IFS=','; echo "${BANDS[*]}")
-    echo "Final EQ after multipliers: $EQ_VALUES"
+    echo "Final EQ after multipliers: $EQ_VALUES" >&2
   fi
 else
   # Unknown preset, use AGGRESSIVE as fallback
   EQ_VALUES="${EQ_PRESETS[AGGRESSIVE]}"
-  echo "Unknown preset '$EQ_PRESET', using AGGRESSIVE"
+  echo "Unknown preset '$EQ_PRESET', using AGGRESSIVE" >&2
 fi
 
-# Output the EQ configuration line for PulseAudio
+# Output the EQ configuration line for PulseAudio (to stdout)
 echo "load-module module-ladspa-sink sink_name=balena-sound.equalizer sink_master=balena-sound.input plugin=mbeq_1197 label=mbeq control=$EQ_VALUES"
 
