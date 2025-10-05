@@ -26,6 +26,9 @@ COPY pulseaudio/client.conf /etc/pulse/client.conf
 COPY pulseaudio/daemon.conf /etc/pulse/daemon.conf
 COPY 95-balena-audio.rules /etc/udev/rules.d/95-balena-audio.rules
 
+# Add directive to load config files from default.pa.d/
+RUN echo ".include /etc/pulse/default.pa.d/" >> /etc/pulse/default.pa
+
 # Copy our custom configuration and scripts
 COPY balena-sound.pa /usr/src/
 COPY start.sh /usr/src/
