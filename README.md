@@ -21,6 +21,7 @@ All of the above software is easily installable from downloads or via the [Raspb
 - **Audio source plugins**: Stream audio from your favourite music services: Bluetooth, Airplay2, Spotify Connect, UPnP and more!
 - **Multi-room synchronous playing**: Play perfectly synchronized audio on multiple devices all over your place.
 - **Extended DAC support**: Upgrade your audio quality with one of our supported DACs
+- **15-band equalizer**: Fine-tune your sound with adjustable EQ presets via Balena Cloud (see [EQUALIZER.md](EQUALIZER.md))
 
 ## Setup and configuration
 
