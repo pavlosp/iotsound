@@ -5,16 +5,15 @@ FROM balenalib/$BALENA_ARCH-debian:bullseye-run
 WORKDIR /usr/src
 
 # UDev is required to autodetect ALSA devices
-# DBus is required for module-bluetooth-discover
 ENV UDEV=on
 ENV DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
 
 # Install PulseAudio and dependencies including LADSPA plugins
+# Note: pulseaudio-module-bluetooth removed as Bluetooth is not used
 RUN install_packages \
   alsa-utils \
   mawk \
   pulseaudio \
-  pulseaudio-module-bluetooth \
   pulseaudio-utils \
   xxd \
   swh-plugins \
