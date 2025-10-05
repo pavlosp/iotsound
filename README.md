@@ -51,26 +51,30 @@ Running this app is as simple as deploying it to a balenaCloud fleet. You can do
 
 ### Quick Start: Using the Equalizer
 
-After deployment, the equalizer is **enabled by default** with the `AGGRESSIVE` preset (optimized for small speakers like Beovox CX100).
+After deployment, the equalizer is **enabled by default** with a balanced-aggressive curve optimized for small speakers like Beovox CX100.
 
-#### To change EQ settings:
+**Current EQ Profile:**
+- **Bass**: Strong boost (+10 to +1 dB on 50-311Hz)
+- **Mids**: Slightly scooped (-1 dB)
+- **Highs**: Smooth presence (+1 to +6 dB on 1.75-10kHz)
 
-1. **Go to your device in Balena Cloud**
-2. **Navigate to Device Variables** (or Fleet Variables for all devices)
-3. **Add environment variables**:
+#### To customize the EQ:
 
-| Variable | Example Value | Description |
-|----------|---------------|-------------|
-| `SOUND_EQ_PRESET` | `BALANCED` | Choose: FLAT, BALANCED, AGGRESSIVE, BASS_HEAVY, VOCAL |
-| `SOUND_EQ_BASS_BOOST` | `1.5` | Multiply bass by 1.5x (0.0 to 2.0) |
-| `SOUND_EQ_TREBLE_BOOST` | `0.8` | Multiply treble by 0.8x (0.0 to 2.0) |
-| `SOUND_EQ_ENABLED` | `false` | Disable equalizer completely |
-| `SOUND_EQ_CUSTOM` | `8,6,4,2,0,0,0,0,0,0,2,4,6,8,10` | Custom 15-band curve in dB |
+You need to **manually edit** the EQ bands in `core/audio/balena-sound.pa` and redeploy.
 
-4. **Restart the audio service** (or reboot device)
-5. **Play music via Airplay** and enjoy!
+**Example:** Change line 12 to adjust the 15-band curve:
+```
+control=10,8,6,4,1,-1,-1,-1,1,2,4,5,6,4
+```
 
-📖 **Detailed guide with frequency bands and examples**: [EQUALIZER.md](EQUALIZER.md)
+Each value represents a frequency band in dB:
+- Bands 1-5: **Bass** (50Hz, 100Hz, 156Hz, 220Hz, 311Hz)
+- Bands 6-9: **Mids** (440Hz, 622Hz, 880Hz, 1.25kHz)
+- Bands 10-15: **Highs** (1.75kHz, 2.5kHz, 3.5kHz, 5kHz, 10kHz, 20kHz)
+
+After editing, commit and push to your fork, then `git push balena master` to deploy.
+
+📖 **Full guide with verification commands**: [EQUALIZER.md](EQUALIZER.md)
 
 ## Technical Changes from Original
 

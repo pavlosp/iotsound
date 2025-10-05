@@ -31,9 +31,8 @@ RUN echo ".include /etc/pulse/default.pa.d/" >> /etc/pulse/default.pa
 # Copy our custom configuration and scripts
 COPY balena-sound.pa /usr/src/
 COPY start.sh /usr/src/
-COPY configure-eq.sh /usr/src/
 COPY entry.sh /usr/src/entry.sh
-RUN chmod +x /usr/src/configure-eq.sh /usr/src/start.sh
+RUN chmod +x /usr/src/start.sh
 
 # Use the audio block entrypoint, which will run start.sh
 ENTRYPOINT [ "/bin/bash", "/usr/src/entry.sh" ]

@@ -6,9 +6,10 @@ load-module module-null-sink sink_name=balena-sound.output format=float32le rate
 load-module module-null-sink sink_name=snapcast format=float32le rate=44100 channels=2
 
 # Load LADSPA equalizer sink (15-band multiband EQ using SWH plugins)
-# AGGRESSIVE smile curve: MORE bass + SHARP highs for Beovox CX100
+# BALANCED-AGGRESSIVE: Strong bass + smooth (non-hissy) highs for Beovox CX100
 # control parameters are band levels in dB: 50Hz, 100Hz, 156Hz, 220Hz, 311Hz, 440Hz, 622Hz, 880Hz, 1.25kHz, 1.75kHz, 2.5kHz, 3.5kHz, 5kHz, 10kHz, 20kHz
-load-module module-ladspa-sink sink_name=balena-sound.equalizer sink_master=balena-sound.input plugin=mbeq_1197 label=mbeq control=10,8,6,4,1,-1,-2,-2,-1,1,3,5,7,8,6
+# Bass: 10,8,6,4,1 | Mids: -1,-2,-2,-1 | Highs: 0,2,3,4,2 (reduced from 1,3,5,7,8,6)
+load-module module-ladspa-sink sink_name=balena-sound.equalizer sink_master=balena-sound.input plugin=mbeq_1197 label=mbeq control=10,8,6,4,1,-1,-1,-1,1,2,4,5,6,4
 
 # Route all plugin input to the equalizer sink
 set-default-sink balena-sound.equalizer
